@@ -1,0 +1,14 @@
+{
+  "name": "levelgraph",
+  "version": "0.0.0",
+  "authors": [
+    "Eric Drechsel <eric@pdxhub.org>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "levelgraph": "~0.8.2",
+    "angular": "~1.2.13",
+    "angular-route": "~1.2.13"
+  }
+}

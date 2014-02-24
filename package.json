@@ -1,0 +1,13 @@
+{
+  "name": "levelgraph-dive",
+  "version": "0.0.0",
+  "description": "clientside only dive into levelgraph",
+  "scripts": {
+    "postinstall": "bower install",
+    "start": "reload -bd app/"
+  },
+  "author": "Eric Drechsel",
+  "devDependencies": {
+    "reload": "~0.1.0"
+  }
+}
