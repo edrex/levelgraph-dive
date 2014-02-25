@@ -1,4 +1,4 @@
-This is an undirected [levelgraph](https://github.com/mcollina/levelgraph) dive.
+undirected [levelgraph](https://github.com/mcollina/levelgraph) dive
 
 LevelGraph is a sextuple-indexed graph store with support for complex queries, which might just be awesome for building information-rich interfaces.
 
@@ -15,4 +15,8 @@ npm install
 
 ## Run
 
-npm run
+`npm run`
+
+## Hack
+
+Add a doohicky. It's undirected.
