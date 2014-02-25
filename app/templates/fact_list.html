@@ -10,9 +10,9 @@
   </thead>
   <tbody>
     <tr ng-repeat="fact in facts">
-      <td>{{fact.subject}}</td>
-      <td>{{fact.predicate}}</td>
-      <td>{{fact.object}}</td>
+      <td><a node="fact.subject"></a></td>
+      <td><a node="fact.predicate"></a></td>
+      <td><a node="fact.object"></a></td>
       <td><a href ng-click="delFact(fact)">&times;</a></td>
     </tr>
     <tr>

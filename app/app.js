@@ -14,10 +14,20 @@ angular.module('dive', ['ngRoute'])
       controller : 'FactListCtrl',
       templateUrl : TPL_PATH + '/fact_list.html'
     });
-    $routeProvider.when('/:id', {
+    $routeProvider.when('/n/:node', {
       controller : 'NodeCtrl',
       templateUrl : TPL_PATH + '/node.html'
     });
+  })
+
+  .directive('node', function() {
+    return {
+      replace: true,
+      scope: {
+        node: '='
+      },
+      template: '<a href="#n/{{node}}">{{node}}</a>'
+    };
   })
 
   .controller('FactListCtrl', function($scope, $routeParams, db) {
@@ -51,7 +61,6 @@ angular.module('dive', ['ngRoute'])
 
   })
   .controller('NodeCtrl', function($scope, $routeParams) {
-    $scope.id = $routeParams.id;
-    $scope.notices = notices;
+    $scope.node = $routeParams.node;
   })
 ;
