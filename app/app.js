@@ -2,10 +2,17 @@ angular.module('dive', ['ngRoute'])
 
   .constant('TPL_PATH', '/templates')
 
+  .factory('db', function() {
+    return levelgraph("test");
+  })
+
   .config(function($routeProvider, TPL_PATH) {
     $routeProvider.when('/', {
-      controller : 'AllCtrl',
-      templateUrl : TPL_PATH + '/all.html'
+      templateUrl : TPL_PATH + '/index.html'
+    });
+    $routeProvider.when('/all-facts', {
+      controller : 'FactListCtrl',
+      templateUrl : TPL_PATH + '/fact_list.html'
     });
     $routeProvider.when('/:id', {
       controller : 'NodeCtrl',
@@ -13,8 +20,35 @@ angular.module('dive', ['ngRoute'])
     });
   })
 
-  .controller('AllCtrl', function($scope, $routeParams) {
-    $scope.foo = "FOOOO";
+  .controller('FactListCtrl', function($scope, $routeParams, db) {
+    $scope.newFact = {}
+    function refresh() {
+      db.search([{
+        subject: db.v("subject"),
+        predicate: db.v("predicate"),
+        object: db.v("object")
+      }], function(err, facts) {
+        $scope.facts = facts;
+        $scope.$digest();
+      });
+    }
+    $scope.pushFact = function() {
+      if(event.keyCode == 13){
+        db.put([$scope.newFact], function () {
+          refresh();
+        });
+        for(i in $scope.newFact) {$scope.newFact[i] = null}
+      }
+    };
+
+    $scope.delFact = function(fact) {
+      db.del(fact, function (err) {
+        refresh();
+      });
+    };
+
+    refresh();
+
   })
   .controller('NodeCtrl', function($scope, $routeParams) {
     $scope.id = $routeParams.id;
