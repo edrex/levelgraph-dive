@@ -1,4 +1,6 @@
-This is an undirected dive using [levelgraph](https://github.com/mcollina/levelgraph), a sextuple-indexed graph store which works in the browser. LevelGraph supports complex queries, which might just be awesome for building information-rich interfaces.
+This is an undirected [levelgraph](https://github.com/mcollina/levelgraph) dive.
+
+LevelGraph is a sextuple-indexed graph store with support for complex queries, which might just be awesome for building information-rich interfaces.
 
 ## Requirements
 
