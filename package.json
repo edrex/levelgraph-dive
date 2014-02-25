@@ -8,6 +8,7 @@
   },
   "author": "Eric Drechsel",
   "devDependencies": {
-    "reload": "~0.1.0"
+    "reload": "~0.1.0",
+    "bower": "~1.2.8"
   }
 }
