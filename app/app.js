@@ -1,15 +1,6 @@
-angular.module('dive', ['ngRoute'])
+angular.module('dive', ['ngRoute', 'graph'])
 
   .constant('TPL_PATH', 'templates')
-
-  .factory('graph', function() {
-    return levelgraph("test");
-  })
-
-  .factory('n3graph', function(graph) {
-    return levelgraphN3(graph);
-  })
-
 
   .config(function($routeProvider, TPL_PATH) {
     $routeProvider.when('/', {
@@ -95,7 +86,6 @@ angular.module('dive', ['ngRoute'])
       });
     }
   })
-
 
   .controller('NodeCtrl', function($scope, $routeParams) {
     $scope.node = $routeParams.node;
