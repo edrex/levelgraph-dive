@@ -19,6 +19,10 @@ angular.module('dive', ['ngRoute'])
       controller : 'ExportCtrl',
       templateUrl : TPL_PATH + '/export.html'
     })
+    .when('/import', {
+      controller : 'ImportCtrl',
+      templateUrl : TPL_PATH + '/import.html'
+    })
     .when('/all-facts', {
       controller : 'FactListCtrl',
       templateUrl : TPL_PATH + '/fact_list.html'
@@ -88,6 +92,24 @@ angular.module('dive', ['ngRoute'])
       });
     }
   })
+
+  .controller('ImportCtrl', function($scope, n3Db) {
+    $scope.data = "<matteo> <friend> <daniele>.\n<marco> <friend> <davide>.\n<daniele> <friend> <marco>.\n<lucio> <friend> <marco>.\n<lucio> <friend> <matteo>.\n<daniele> <friend> <matteo>."
+    $scope.import = function() {
+      $scope.status = "Importing..."
+      n3Db.n3.put($scope.data, function(err) {
+        if (err) {
+          $scope.status = "Error importing data.";
+          console.log(err);
+        } else {
+          $scope.status = "Import complete.";
+          $scope.data = "";
+        }
+        $scope.$digest();
+      });
+    }
+  })
+
 
   .controller('NodeCtrl', function($scope, $routeParams) {
     $scope.node = $routeParams.node;
