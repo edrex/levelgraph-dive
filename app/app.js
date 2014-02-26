@@ -2,12 +2,12 @@ angular.module('dive', ['ngRoute'])
 
   .constant('TPL_PATH', 'templates')
 
-  .factory('db', function() {
+  .factory('graph', function() {
     return levelgraph("test");
   })
 
-  .factory('n3Db', function(db) {
-    return levelgraphN3(db);
+  .factory('n3graph', function(graph) {
+    return levelgraphN3(graph);
   })
 
 
@@ -43,13 +43,13 @@ angular.module('dive', ['ngRoute'])
     };
   })
 
-  .controller('FactListCtrl', function($scope, $routeParams, db) {
+  .controller('FactListCtrl', function($scope, $routeParams, graph) {
     $scope.newFact = {}
     function refresh() {
-      db.search([{
-        subject: db.v("subject"),
-        predicate: db.v("predicate"),
-        object: db.v("object")
+      graph.search([{
+        subject: graph.v("subject"),
+        predicate: graph.v("predicate"),
+        object: graph.v("object")
       }], function(err, facts) {
         $scope.facts = facts;
         $scope.$digest();
@@ -57,7 +57,7 @@ angular.module('dive', ['ngRoute'])
     }
     $scope.pushFact = function() {
       if(event.keyCode == 13){
-        db.put([$scope.newFact], function () {
+        graph.put([$scope.newFact], function () {
           refresh();
         });
         for(i in $scope.newFact) {$scope.newFact[i] = null}
@@ -65,7 +65,7 @@ angular.module('dive', ['ngRoute'])
     };
 
     $scope.delFact = function(fact) {
-      db.del(fact, function (err) {
+      graph.del(fact, function (err) {
         refresh();
       });
     };
@@ -74,17 +74,17 @@ angular.module('dive', ['ngRoute'])
 
   })
 
-  .controller('ExportCtrl', function($scope, n3Db) {
+  .controller('ExportCtrl', function($scope, n3graph) {
     $scope.export = function() {
-      n3Db.search([{
-        subject: db.v("subject"),
-        predicate: db.v("predicate"),
-        object: db.v("object")
+      n3graph.search([{
+        subject: n3graph.v("subject"),
+        predicate: n3graph.v("predicate"),
+        object: n3graph.v("object")
       }], {
         n3: {
-          subject: db.v("subject"),
-          predicate: db.v("predicate"),
-          object: db.v("object")
+          subject: n3graph.v("subject"),
+          predicate: n3graph.v("predicate"),
+          object: n3graph.v("object")
         }
       }, function(err, turtle) {
         $scope.dump = turtle;
@@ -93,11 +93,11 @@ angular.module('dive', ['ngRoute'])
     }
   })
 
-  .controller('ImportCtrl', function($scope, n3Db) {
+  .controller('ImportCtrl', function($scope, n3graph) {
     $scope.data = "<matteo> <friend> <daniele>.\n<marco> <friend> <davide>.\n<daniele> <friend> <marco>.\n<lucio> <friend> <marco>.\n<lucio> <friend> <matteo>.\n<daniele> <friend> <matteo>."
     $scope.import = function() {
       $scope.status = "Importing..."
-      n3Db.n3.put($scope.data, function(err) {
+      n3graph.n3.put($scope.data, function(err) {
         if (err) {
           $scope.status = "Error importing data.";
           console.log(err);
