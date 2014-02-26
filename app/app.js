@@ -46,11 +46,7 @@ angular.module('dive', ['ngRoute'])
   .controller('FactListCtrl', function($scope, $routeParams, graph) {
     $scope.newFact = {}
     function refresh() {
-      graph.search([{
-        subject: graph.v("subject"),
-        predicate: graph.v("predicate"),
-        object: graph.v("object")
-      }], function(err, facts) {
+      graph.get({}, function(err, facts) {
         $scope.facts = facts;
         $scope.$digest();
       });
@@ -76,17 +72,7 @@ angular.module('dive', ['ngRoute'])
 
   .controller('ExportCtrl', function($scope, n3graph) {
     $scope.export = function() {
-      n3graph.search([{
-        subject: n3graph.v("subject"),
-        predicate: n3graph.v("predicate"),
-        object: n3graph.v("object")
-      }], {
-        n3: {
-          subject: n3graph.v("subject"),
-          predicate: n3graph.v("predicate"),
-          object: n3graph.v("object")
-        }
-      }, function(err, turtle) {
+      n3graph.n3.get({}, function(err, turtle) {
         $scope.dump = turtle;
         $scope.$digest();
       });
