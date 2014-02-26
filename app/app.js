@@ -1,6 +1,6 @@
 angular.module('dive', ['ngRoute'])
 
-  .constant('TPL_PATH', '/templates')
+  .constant('TPL_PATH', 'templates')
 
   .factory('db', function() {
     return levelgraph("test");
