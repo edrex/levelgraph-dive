@@ -6,8 +6,9 @@
   ],
   "license": "MIT",
   "private": true,
-  "devDependencies": {
+  "dependencies": {
     "levelgraph": "~0.8.2",
+    "levelgraph-n3": "~0.3.2",
     "angular": "~1.2.13",
     "angular-route": "~1.2.13"
   }
