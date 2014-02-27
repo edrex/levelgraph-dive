@@ -20,5 +20,5 @@ app-bundle:
 dev-bower-bundle:
 	browserify -d src/libs.js > app/bower.bundle.js
 dev: dev-bower-bundle
-	watchify -d app/app.js -o app/app.bundle.js &
-	reload -bd app/
+	watchify -vd --debounce 3000 src/app.js -o app/app.bundle.js & sleep 2 && \
+	cd app && reload -bd
