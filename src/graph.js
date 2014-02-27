@@ -1,4 +1,3 @@
-levelgraph = require('levelgraph');
 var leveljs = require("level-js");
 var levelup = require("levelup");
 var levelgraph = require("levelgraph");
