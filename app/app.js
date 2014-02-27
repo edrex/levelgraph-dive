@@ -1,3 +1,5 @@
+require('./graph.js');
+
 angular.module('dive', ['ngRoute', 'graph'])
 
   .constant('TPL_PATH', 'templates')
