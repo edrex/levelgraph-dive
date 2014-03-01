@@ -1,4 +1,4 @@
-deploy: app/.git bower-bundle app-bundle
+deploy: app/.git webpack
 	cd app/ && \
 	git add -A . && \
 	git commit -m "Deploy"; \
@@ -8,17 +8,13 @@ app/.git:
 	cd app && \
 	git init .
 
-clean: clean-bundles
+clean:
 	rm -f app/*.bundle.js
 	rm -rf app/.git
 
-bower-bundle:
-	browserify src/libs.js | uglifyjs2 > app/bower.bundle.js
-app-bundle:
-	browserify src/app.js | uglifyjs2 > app/app.bundle.js
+webpack:
+	webpack
 
-dev-bower-bundle:
-	browserify -d src/libs.js > app/bower.bundle.js
-dev: dev-bower-bundle
-	watchify -vd --debounce 3000 src/app.js -o app/app.bundle.js & sleep 2 && \
+dev:
+	webpack --watch & \
 	cd app && reload -bd
