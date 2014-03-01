@@ -36,17 +36,17 @@ angular.module('dive', ['ngRoute', 'graph'])
     };
   })
 
-  .controller('FactListCtrl', function($scope, $routeParams, graph) {
+  .controller('FactListCtrl', function($scope, $routeParams, g) {
     $scope.newFact = {}
     function refresh() {
-      graph.get({}, function(err, facts) {
+      g.get({}, function(err, facts) {
         $scope.facts = facts;
         $scope.$digest();
       });
     }
     $scope.pushFact = function() {
       if(event.keyCode == 13){
-        graph.put([$scope.newFact], function () {
+        g.put([$scope.newFact], function () {
           refresh();
         });
         for(i in $scope.newFact) {$scope.newFact[i] = null}
@@ -54,7 +54,7 @@ angular.module('dive', ['ngRoute', 'graph'])
     };
 
     $scope.delFact = function(fact) {
-      graph.del(fact, function (err) {
+      g.del(fact, function (err) {
         refresh();
       });
     };

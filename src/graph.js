@@ -5,7 +5,7 @@ var levelgraphN3 = require('levelgraph-n3');
 
 angular.module('graph', [])
 
-  .factory('graph', function() {
+  .factory('g', function() {
     return levelgraph(levelup("test", {
       db: function (location) {
         return new leveljs(location)
@@ -13,8 +13,8 @@ angular.module('graph', [])
     }));
   })
 
-  .factory('n3graph', function(graph) {
-    return levelgraphN3(graph);
+  .factory('n3graph', function(g) {
+    return levelgraphN3(g);
   })
 
   .directive('graphSearch', function(graph) {
