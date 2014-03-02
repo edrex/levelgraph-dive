@@ -16,12 +16,11 @@ require.ensure([], function (require) {
       }));
     })
 
-    .factory('n3graph', function(g) {
+    .factory('n3graph', ['g', function(g) {
       return levelgraphN3(g);
-    })
+    }])
 
-    .directive('graphSearch', function(graph) {
-
+    .directive('graphSearch', ['g', function(g) {
       return {
         scope: true,
         compile: function(scope, element, attrs) {
@@ -65,5 +64,5 @@ require.ensure([], function (require) {
           }
         }
       };
-    });
+    }]);
 }, 'libs');

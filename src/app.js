@@ -8,7 +8,7 @@ require.ensure([], function(require) {
 
     .constant('TPL_PATH', 'templates')
 
-    .config(function($routeProvider, TPL_PATH) {
+    .config(['$routeProvider', 'TPL_PATH', function($routeProvider, TPL_PATH) {
       $routeProvider.when('/', {
         templateUrl : TPL_PATH + '/index.html'
       })
@@ -28,7 +28,7 @@ require.ensure([], function(require) {
         controller : 'NodeCtrl',
         templateUrl : TPL_PATH + '/node.html'
       });
-    })
+    }])
 
     .directive('node', function() {
       return {
@@ -40,7 +40,7 @@ require.ensure([], function(require) {
       };
     })
 
-    .controller('FactListCtrl', function($scope, $routeParams, g) {
+    .controller('FactListCtrl', ['$scope', '$routeParams', 'g', function($scope, $routeParams, g) {
       $scope.newFact = {}
       function refresh() {
         g.get({}, function(err, facts) {
@@ -65,18 +65,18 @@ require.ensure([], function(require) {
 
       refresh();
 
-    })
+    }])
 
-    .controller('ExportCtrl', function($scope, n3graph) {
+    .controller('ExportCtrl', ['$scope', 'n3graph', function($scope, n3graph) {
       $scope.export = function() {
         n3graph.n3.get({}, function(err, turtle) {
           $scope.dump = turtle;
           $scope.$digest();
         });
       }
-    })
+    }])
 
-    .controller('ImportCtrl', function($scope, n3graph) {
+    .controller('ImportCtrl', ['$scope', 'n3graph', function($scope, n3graph) {
       $scope.data = "<matteo> <friend> <daniele>.\n<marco> <friend> <davide>.\n<daniele> <friend> <marco>.\n<lucio> <friend> <marco>.\n<lucio> <friend> <matteo>.\n<daniele> <friend> <matteo>."
       $scope.import = function() {
         $scope.status = "Importing..."
@@ -91,10 +91,10 @@ require.ensure([], function(require) {
           $scope.$digest();
         });
       }
-    })
+    }])
 
-    .controller('NodeCtrl', function($scope, $routeParams) {
+    .controller('NodeCtrl', ['$scope', '$routeParams', function($scope, $routeParams) {
       $scope.node = $routeParams.node;
-    })
+    }])
 }, 'libs');
 
