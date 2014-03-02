@@ -10,10 +10,12 @@ app/.git:
 
 clean:
 	rm -f app/*.bundle.js
+
+reallyclean: clean
 	rm -rf app/.git
 
 webpack:
-	webpack
+	webpack --optimize-minimize
 
 dev:
 	webpack --watch & \

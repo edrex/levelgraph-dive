@@ -1,95 +1,100 @@
 require('./graph.js');
 
-angular.module('dive', ['ngRoute', 'graph'])
+require.ensure([], function(require) {
+  require('./lib/angular/angular.js');
+  require('./lib/angular-route/angular-route.js');
 
-  .constant('TPL_PATH', 'templates')
+  angular.module('dive', ['ngRoute', 'graph'])
 
-  .config(function($routeProvider, TPL_PATH) {
-    $routeProvider.when('/', {
-      templateUrl : TPL_PATH + '/index.html'
-    })
-    .when('/export', {
-      controller : 'ExportCtrl',
-      templateUrl : TPL_PATH + '/export.html'
-    })
-    .when('/import', {
-      controller : 'ImportCtrl',
-      templateUrl : TPL_PATH + '/import.html'
-    })
-    .when('/all-facts', {
-      controller : 'FactListCtrl',
-      templateUrl : TPL_PATH + '/fact_list.html'
-    })
-    .when('/n/:node', {
-      controller : 'NodeCtrl',
-      templateUrl : TPL_PATH + '/node.html'
-    });
-  })
+    .constant('TPL_PATH', 'templates')
 
-  .directive('node', function() {
-    return {
-      replace: true,
-      scope: {
-        node: '='
-      },
-      template: '<a href="#n/{{node}}">{{node}}</a>'
-    };
-  })
-
-  .controller('FactListCtrl', function($scope, $routeParams, g) {
-    $scope.newFact = {}
-    function refresh() {
-      g.get({}, function(err, facts) {
-        $scope.facts = facts;
-        $scope.$digest();
+    .config(function($routeProvider, TPL_PATH) {
+      $routeProvider.when('/', {
+        templateUrl : TPL_PATH + '/index.html'
+      })
+      .when('/export', {
+        controller : 'ExportCtrl',
+        templateUrl : TPL_PATH + '/export.html'
+      })
+      .when('/import', {
+        controller : 'ImportCtrl',
+        templateUrl : TPL_PATH + '/import.html'
+      })
+      .when('/all-facts', {
+        controller : 'FactListCtrl',
+        templateUrl : TPL_PATH + '/fact_list.html'
+      })
+      .when('/n/:node', {
+        controller : 'NodeCtrl',
+        templateUrl : TPL_PATH + '/node.html'
       });
-    }
-    $scope.pushFact = function() {
-      if(event.keyCode == 13){
-        g.put([$scope.newFact], function () {
+    })
+
+    .directive('node', function() {
+      return {
+        replace: true,
+        scope: {
+          node: '='
+        },
+        template: '<a href="#n/{{node}}">{{node}}</a>'
+      };
+    })
+
+    .controller('FactListCtrl', function($scope, $routeParams, g) {
+      $scope.newFact = {}
+      function refresh() {
+        g.get({}, function(err, facts) {
+          $scope.facts = facts;
+          $scope.$digest();
+        });
+      }
+      $scope.pushFact = function() {
+        if(event.keyCode == 13){
+          g.put([$scope.newFact], function () {
+            refresh();
+          });
+          for(i in $scope.newFact) {$scope.newFact[i] = null}
+        }
+      };
+
+      $scope.delFact = function(fact) {
+        g.del(fact, function (err) {
           refresh();
         });
-        for(i in $scope.newFact) {$scope.newFact[i] = null}
+      };
+
+      refresh();
+
+    })
+
+    .controller('ExportCtrl', function($scope, n3graph) {
+      $scope.export = function() {
+        n3graph.n3.get({}, function(err, turtle) {
+          $scope.dump = turtle;
+          $scope.$digest();
+        });
       }
-    };
+    })
 
-    $scope.delFact = function(fact) {
-      g.del(fact, function (err) {
-        refresh();
-      });
-    };
+    .controller('ImportCtrl', function($scope, n3graph) {
+      $scope.data = "<matteo> <friend> <daniele>.\n<marco> <friend> <davide>.\n<daniele> <friend> <marco>.\n<lucio> <friend> <marco>.\n<lucio> <friend> <matteo>.\n<daniele> <friend> <matteo>."
+      $scope.import = function() {
+        $scope.status = "Importing..."
+        n3graph.n3.put($scope.data, function(err) {
+          if (err) {
+            $scope.status = "Error importing data.";
+            console.log(err);
+          } else {
+            $scope.status = "Import complete.";
+            $scope.data = "";
+          }
+          $scope.$digest();
+        });
+      }
+    })
 
-    refresh();
+    .controller('NodeCtrl', function($scope, $routeParams) {
+      $scope.node = $routeParams.node;
+    })
+}, 'libs');
 
-  })
-
-  .controller('ExportCtrl', function($scope, n3graph) {
-    $scope.export = function() {
-      n3graph.n3.get({}, function(err, turtle) {
-        $scope.dump = turtle;
-        $scope.$digest();
-      });
-    }
-  })
-
-  .controller('ImportCtrl', function($scope, n3graph) {
-    $scope.data = "<matteo> <friend> <daniele>.\n<marco> <friend> <davide>.\n<daniele> <friend> <marco>.\n<lucio> <friend> <marco>.\n<lucio> <friend> <matteo>.\n<daniele> <friend> <matteo>."
-    $scope.import = function() {
-      $scope.status = "Importing..."
-      n3graph.n3.put($scope.data, function(err) {
-        if (err) {
-          $scope.status = "Error importing data.";
-          console.log(err);
-        } else {
-          $scope.status = "Import complete.";
-          $scope.data = "";
-        }
-        $scope.$digest();
-      });
-    }
-  })
-
-  .controller('NodeCtrl', function($scope, $routeParams) {
-    $scope.node = $routeParams.node;
-  })
-;

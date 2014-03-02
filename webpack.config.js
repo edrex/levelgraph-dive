@@ -1,10 +1,13 @@
+var path = require("path");
+
 module.exports = {
     entry: {
       app: "./src/app.js",
-      bower: "./src/libs.js"
     },
     output: {
-        filename: "./app/[name].bundle.js",
+        path: path.join(__dirname, "app"),
+        filename: "[name].bundle.js",
+        chunkFilename: "[id].bundle.js"
     },
     module: {
         loaders: [
