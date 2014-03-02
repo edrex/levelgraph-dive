@@ -10,8 +10,6 @@
   "devDependencies": {
     "reload": "~0.1.0",
     "bower": "~1.2.8",
-    "browserify": "~3.31.2",
-    "watchify": "~0.6.1",
     "levelgraph-n3": "~0.3.2",
     "levelgraph": "~0.8.2",
     "level-js": "~1.0.8",
