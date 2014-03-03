@@ -13,5 +13,8 @@ module.exports = {
         loaders: [
             { test: /\.json$/, loader: "json" }
         ]
+    },
+    resolve: {
+        alias: { stream: "stream-browserify" }
     }
 }
