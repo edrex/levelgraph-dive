@@ -1,0 +1,24 @@
+<h1>All the facts</h1>
+<table class="fact-table" ng-cloak >
+  <thead>
+    <tr>
+      <th>Subject</th>
+      <th>Predicate</th>
+      <th>Object</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="fact in facts">
+      <td><a node="fact.subject"></a></td>
+      <td><a node="fact.predicate"></a></td>
+      <td><a node="fact.object"></a></td>
+      <td><a href ng-click="delFact(fact)">&times;</a></td>
+    </tr>
+    <tr>
+      <td><input type="text" ng-model="newFact.subject"></td>
+      <td><input type="text" ng-model="newFact.predicate"></td>
+      <td><input type="text" ng-model="newFact.object" ng-keyup="pushFact()"></td>
+    </tr>
+  </tbody>
+</table>
