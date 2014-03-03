@@ -18,5 +18,8 @@ webpack:
 	webpack --optimize-minimize
 
 dev:
+	webpack-dev-server --content-base app -d
+
+dev2:
 	webpack --watch & \
 	cd app && reload -bd
