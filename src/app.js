@@ -96,5 +96,12 @@ require.ensure([], function(require) {
     .controller('NodeCtrl', ['$scope', '$routeParams', function($scope, $routeParams) {
       $scope.node = $routeParams.node;
     }])
+    .factory ('$exceptionHandler', function() {
+      return function(exception, cause) {
+        console.error(exception, exception.message);
+        throw exception;
+      }
+    })
+
 }, 'libs');
 
