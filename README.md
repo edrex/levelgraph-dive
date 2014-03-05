@@ -17,7 +17,7 @@ npm install
 
 ## Run
 
-`npm run`
+`npm start`
 
 ## Hack
 

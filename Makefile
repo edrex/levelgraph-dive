@@ -15,11 +15,11 @@ reallyclean: clean
 	rm -rf app/.git
 
 webpack:
-	webpack --optimize-minimize
+	./node_modules/.bin/webpack --optimize-minimize
 
 dev:
-	webpack-dev-server --content-base app -d
+	./node_modules/.bin/webpack-dev-server --content-base app -d
 
 dev2:
-	webpack --watch & \
+	./node_modules/.bin/webpack --watch & \
 	cd app && reload -bd
