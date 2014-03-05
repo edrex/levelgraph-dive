@@ -14,7 +14,7 @@
     "levelgraph": "~0.8.2",
     "level-js": "~1.0.8",
     "levelup": "~0.18.2",
-    "webpack": "~1.0.5",
+    "webpack": "~1.1.0-beta2",
     "json-loader": "~0.5.0",
     "react": "~0.9.0",
     "stream-browserify": "~0.1.3",
